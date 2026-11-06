@@ -1,0 +1,22 @@
+#!/bin/sh
+# 个人主页 README · 提交前检查（2026-11-06 起）
+#
+# 背景：这份 README 首版把规模写死成「9 个星系 / 45 个星团 / 709 个节点 / 1398 条连线」，
+# 三周后星图长到 15 / 105 / 1540 / 3169，页面上全是假话。
+# 图的权威数字只有一处：MathGalaxy 的 dist/graph.json meta.counts。
+# 所以这里不写死任何数字 —— 要提规模就用「十几个星系」这类不精确说法，或干脆不提。
+#
+# 安装：git config core.hooksPath .githooks
+# 跳过：git commit --no-verify
+set -u
+cd "$(git rev-parse --show-toplevel)" || exit 0
+
+hit=$(grep -nE '[0-9]+[[:space:]]*(个)?(星系|星团|节点|连线|条边)' README.md || true)
+if [ -n "$hit" ]; then
+  echo "✗ README.md 里写死了规模数字 —— 图在长，这些数字很快就是假话：" >&2
+  echo "$hit" >&2
+  echo "  改成「十几个星系」「一千多个节点」这类不精确说法，或干脆不写数字。" >&2
+  exit 1
+fi
+
+exit 0

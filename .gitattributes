@@ -1,0 +1,2 @@
+# 钩子由 sh 执行；这个仓库 core.autocrlf=true，不钉死就会在重新克隆后带上 CRLF 而跑不起来
+.githooks/** text eol=lf
